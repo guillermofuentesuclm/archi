@@ -5,6 +5,7 @@
  */
 package com.archimatetool.model.viewpoints;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -52,6 +55,7 @@ public class ViewpointManager {
      * The Viewpoints XML file
      */
     private static final String VIEWPOINTS_FILE = "model/viewpoints.xml"; //$NON-NLS-1$
+    private static final String VIEWPOINTS_CUSTOM_FILE = "model/viewpoints_custom.xml"; //$NON-NLS-1$
     
     private static final String BUSINESS_ELEMENTS = "$BusinessElements$"; //$NON-NLS-1$
     private static final String APPLICATION_ELEMENTS = "$ApplicationElements$"; //$NON-NLS-1$
@@ -80,6 +84,7 @@ public class ViewpointManager {
      * All Viewpoints
      */
     private Map<String, IViewpoint> VIEWPOINTS = new HashMap<String, IViewpoint>();
+    private Map<String, IViewpoint> CUSTOM_VIEWPOINTS = new HashMap<String, IViewpoint>();
     
     private ViewpointManager() {
         // Map elements to collections
@@ -99,6 +104,7 @@ public class ViewpointManager {
         
         try {
             loadDefaultViewpointsFile();
+            loadCustomViewpointFile();
         }
         catch(IOException | JDOMException ex) {
             ex.printStackTrace();
@@ -106,11 +112,85 @@ public class ViewpointManager {
         }
     }
     
+    private void loadCustomViewpointFile() throws IOException, JDOMException  {
+    	// Load localised file from bundle
+        URL url = FileLocator.find(Platform.getBundle(BUNDLE_ID), new Path("$nl$/" + VIEWPOINTS_CUSTOM_FILE)); //$NON-NLS-1$
+        if (url == null) {
+        	return;
+        }
+        url = FileLocator.resolve(url);
+        
+        Document doc = new SAXBuilder().build(url);
+        Element rootElement = doc.getRootElement();
+        List<Element> vps = rootElement.getChildren("viewpoint");
+        
+        if (vps.isEmpty()) {
+        	return;
+        }
+        
+        for(Element xmlViewpoint : vps) { //$NON-NLS-1$
+            
+            String id = xmlViewpoint.getAttributeValue("id"); //$NON-NLS-1$
+            if(id == null || "".equals(id)) { //$NON-NLS-1$
+                System.err.println("Blank id for viewpoint"); //$NON-NLS-1$
+                continue;
+            }
+            
+            Element xmlName = xmlViewpoint.getChild("name"); //$NON-NLS-1$
+            if(xmlName == null) {
+                System.err.println("No name element for viewpoint"); //$NON-NLS-1$
+                continue;
+            }
+            
+            String name = xmlName.getText();
+            if(name == null || "".equals(name)) { //$NON-NLS-1$
+                System.err.println("Blank name for viewpoint"); //$NON-NLS-1$
+                continue;
+            }
+            
+            Viewpoint vp = new Viewpoint(id, name);
+            
+            for(Element xmlConcept : xmlViewpoint.getChildren("concept")) { //$NON-NLS-1$
+                String conceptName = xmlConcept.getText();
+                if(conceptName == null || "".equals(conceptName)) { //$NON-NLS-1$
+                    System.err.println("Blank concept name for viewpoint"); //$NON-NLS-1$
+                    continue;
+                }
+                
+                if(CONCEPTS_MAP.containsKey(conceptName)) {
+                    addCollection(vp, conceptName);
+                }
+                else {
+                    EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(conceptName);
+                    if(eClass != null) {
+                        addConcept(vp, eClass);
+                    }
+                    else {
+                        System.err.println("Couldn't get eClass: " + conceptName); //$NON-NLS-1$
+                    }
+                    
+                }
+            }
+            
+            CUSTOM_VIEWPOINTS.put(id, vp);
+        }
+	}
+
+	public Map<String, EClass[]> getConceptsMap() {
+    	return this.CONCEPTS_MAP;
+    }
+    
+    public void addViewpoint(IViewpoint viewpoint) throws IOException, JDOMException {
+    	saveCustomViewpoint(viewpoint);
+    	CUSTOM_VIEWPOINTS.put(viewpoint.getID(), viewpoint);
+    }
+    
     /**
      * @return A list of all Viewpoints
      */
     public List<IViewpoint> getAllViewpoints() {
         List<IViewpoint> list = new ArrayList<IViewpoint>(VIEWPOINTS.values());
+        list.addAll(CUSTOM_VIEWPOINTS.values());
 
         // Sort the Viewpoints by name
         Collections.sort(list, new Comparator<IViewpoint>() {
@@ -263,4 +343,39 @@ public class ViewpointManager {
         
         return list.toArray(new EClass[list.size()]);
     }
+    
+    public void saveCustomViewpoint(IViewpoint viewpoint) throws IOException, JDOMException {
+    	URL url = FileLocator.find(Platform.getBundle(BUNDLE_ID), new Path("$nl$/" + VIEWPOINTS_CUSTOM_FILE)); //$NON-NLS-1$
+    	url = FileLocator.resolve(url);
+        
+        Document doc = new SAXBuilder().build(url);
+        Element rootElement = doc.getRootElement();
+        
+        if (CUSTOM_VIEWPOINTS.containsKey(viewpoint.getID())) {
+        	return;
+        }
+        
+        Element element = getWriteElement(viewpoint);
+        rootElement.addContent(element);
+        
+        FileWriter writer = new FileWriter(url.getPath());
+        XMLOutputter outputter = new XMLOutputter();
+        outputter.setFormat(Format.getPrettyFormat());
+        outputter.output(rootElement, writer);
+        outputter.output(rootElement, System.out);
+        writer.close(); 
+    }
+    
+	private Element getWriteElement(IViewpoint vp) {
+		Element element = new Element("viewpoint");
+		element.setAttribute("id", vp.getID());
+		element.addContent(new Element("name").addContent(vp.getName()));
+				
+		for(EClass c : vp.getElementsClassList()) {
+			String name = c.getName();
+			element.addContent(new Element("concept").addContent(name));
+		}
+		
+		return element;
+	}
 }

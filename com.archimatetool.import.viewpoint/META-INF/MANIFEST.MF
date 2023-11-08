@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Import Viewpoint
+Bundle-SymbolicName: com.archimatetool.import.viewpoint;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Guillermo Fuentes - UCLM
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.archimatetool.editor,
+ com.archimatetool.jdom
+Automatic-Module-Name: com.archimatetool.importexportexample

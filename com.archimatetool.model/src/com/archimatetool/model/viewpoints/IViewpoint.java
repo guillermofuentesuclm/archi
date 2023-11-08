@@ -5,6 +5,8 @@
  */
 package com.archimatetool.model.viewpoints;
 
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -29,4 +31,5 @@ public interface IViewpoint {
      */
     boolean isAllowedConcept(EClass eClass);
     
+    Set<EClass> getElementsClassList();
 }

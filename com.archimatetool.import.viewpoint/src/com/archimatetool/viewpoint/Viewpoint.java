@@ -1,9 +1,5 @@
-/**
- * This program and the accompanying materials
- * are made available under the terms of the License
- * which accompanies this distribution in the file LICENSE.txt
- */
-package com.archimatetool.model.viewpoints;
+package com.archimatetool.viewpoint;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +9,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EClass;
 
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.viewpoints.IViewpoint;
 
 
 /**
@@ -21,8 +18,7 @@ import com.archimatetool.model.IArchimatePackage;
  * @author Phillip Beauvoir
  */
 class Viewpoint implements IViewpoint {
-    
-    private Set<EClass> elementsClassList = new HashSet<EClass>();
+	private Set<EClass> elementsClassList = new HashSet<EClass>();
     private Set<EClass> relationsClassList = new HashSet<EClass>();
 
     // Default elements in a Viewpoint are Junction and Grouping
@@ -41,8 +37,12 @@ class Viewpoint implements IViewpoint {
     public Set<EClass> getElementsClassList() {
 		return elementsClassList;
 	}
-
-	void addEClass(EClass eClass) {
+    
+    public Set<EClass> getRelationsClassList() {
+		return relationsClassList;
+	}
+    
+    void addEClass(EClass eClass) {
         if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
             elementsClassList.add(eClass);
         }
