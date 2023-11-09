@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.editor.feature"
       label="Archi Editor"
-      version="5.2.0.qualifier"
+      version="5.2.1.qualifier"
       provider-name="Archi">
 
    <description>
@@ -181,6 +181,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <plugin
          id="com.archimatetool.modelimporter.commandline"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.archimatetool.import.viewpoint"
          download-size="0"
          install-size="0"
          version="0.0.0"

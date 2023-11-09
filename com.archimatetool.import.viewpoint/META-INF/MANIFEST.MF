@@ -5,9 +5,13 @@ Bundle-SymbolicName: com.archimatetool.import.viewpoint;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Guillermo Fuentes - UCLM
 Bundle-Localization: plugin
+Eclipse-BundleShape: dir
+Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- com.archimatetool.editor,
- com.archimatetool.jdom
+ com.archimatetool.editor;bundle-version="5.2.0",
+ com.archimatetool.jdom;bundle-version="5.2.0"
 Automatic-Module-Name: com.archimatetool.importexportexample
+Bundle-ClassPath: com.archimatetool.viewpoint.jar
+Export-Package: com.archimatetool.viewpoint

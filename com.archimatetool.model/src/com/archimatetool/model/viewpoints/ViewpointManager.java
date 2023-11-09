@@ -217,6 +217,10 @@ public class ViewpointManager {
         
         IViewpoint vp = VIEWPOINTS.get(id);
         
+        if (vp == null) {
+        	vp = CUSTOM_VIEWPOINTS.get(id);
+        }
+        
         return vp == null ? NONE_VIEWPOINT : vp;
     }
     

@@ -8,14 +8,11 @@
     <version>${revision}</version>
     <relativePath>..\pom.xml</relativePath>
   </parent>
-  <artifactId>com.archimatetool.model</artifactId>
+  <artifactId>com.archimatetool.editor.feature</artifactId>
   <version>5.2.1-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
-  <name>[bundle] Archi Model</name>
+  <packaging>eclipse-feature</packaging>
+  <name>[feature] Archi Editor</name>
   <organization>
     <name>Archi</name>
   </organization>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-  </build>
 </project>

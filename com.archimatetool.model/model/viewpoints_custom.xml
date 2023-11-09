@@ -1,18 +1,2 @@
 <viewpoints version="3.0">
-  <viewpoint id="devops">
-    <name>DevOps</name>
-    <concept>TechnologyInterface</concept>
-    <concept>Device</concept>
-    <concept>Path</concept>
-    <concept>TechnologyService</concept>
-    <concept>BusinessRole</concept>
-    <concept>ApplicationFunction</concept>
-    <concept>TechnologyFunction</concept>
-    <concept>Location</concept>
-    <concept>Node</concept>
-    <concept>ApplicationComponent</concept>
-    <concept>CommunicationNetwork</concept>
-    <concept>SystemSoftware</concept>
-    <concept>Artifact</concept>
-  </viewpoint>
 </viewpoints>

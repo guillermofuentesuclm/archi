@@ -39,6 +39,7 @@
         <module>com.archimatetool.gef.feature</module>
         <module>com.archimatetool.hammer</module>
         <module>com.archimatetool.help</module>
+        <module>com.archimatetool.import.viewpoint</module>
         <module>com.archimatetool.jasperreports</module>
         <module>com.archimatetool.jasperreports.commandline</module>
         <module>com.archimatetool.jdom</module>
