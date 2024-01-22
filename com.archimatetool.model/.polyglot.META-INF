@@ -6,7 +6,6 @@
     <groupId>com.archimatetool</groupId>
     <artifactId>archi</artifactId>
     <version>${revision}</version>
-    <relativePath>..\pom.xml</relativePath>
   </parent>
   <artifactId>com.archimatetool.model</artifactId>
   <version>5.2.1-SNAPSHOT</version>

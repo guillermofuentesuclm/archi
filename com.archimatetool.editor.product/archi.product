@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="5.2.1.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
-
+<product name="ArchiViewpoint" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="5.2.1.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <configIni use="">
    </configIni>
@@ -58,8 +57,10 @@ openFile
       </win>
    </launcher>
 
-
    <vm>
+      <linux include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</linux>
+      <macos include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</macos>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</windows>
    </vm>
 
 

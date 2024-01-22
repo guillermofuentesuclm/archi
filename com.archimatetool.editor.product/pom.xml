@@ -43,9 +43,9 @@
                         <product>
                             <id>${product-id}</id>
                             <!-- Set the root folder name under the os/ws/arch folders) -->
-                            <rootFolder>Archi</rootFolder>
+                            <rootFolder>ArchiViewpoint</rootFolder>
                             <!-- Set the archive name prefix of the products (if archives are created) -->
-                            <archiveFileName>Archi</archiveFileName>
+                            <archiveFileName>ArchiViewpoint</archiveFileName>
                         </product>
                     </products>
                     <!-- This should be set to "repository" from Eclipse 4.24 onwards to support PGP signing of plug-ins -->
